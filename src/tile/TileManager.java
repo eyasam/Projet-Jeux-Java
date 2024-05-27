@@ -48,7 +48,6 @@ public class TileManager {
 
 			m_tile[2] = new Tile();
 			m_tile[2].m_image = ImageIO.read(getClass().getResource("/tiles/WATER.png"));
-			m_tile[2].m_collision = true;
 
 			
 			m_tile[4] = new Tile();

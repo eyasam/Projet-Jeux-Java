@@ -15,8 +15,6 @@ import main.KeyHandler;
  */
 public class Player extends Entity{
 
-	GamePanel m_gp;
-	KeyHandler m_keyH;
 
 	private boolean sauter= false;
 	private boolean tomber = false;
@@ -54,7 +52,7 @@ public class Player extends Entity{
 	public void getPlayerImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/player/superhero.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/player/mey.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -64,6 +62,7 @@ public class Player extends Entity{
 	 * Mise à jour des données du joueur
 	 * en verifiant que le dép ne sort pas de l'ecran 
 	 */
+	@Override
 	public void update() {
 		int limit_Y= m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE; //max en bas
 		int limit_X= m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE; //max a droite
@@ -147,6 +146,7 @@ public class Player extends Entity{
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
 	 * @param a_g2 Graphics2D 
 	 */
+	@Override
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
