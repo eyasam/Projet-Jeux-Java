@@ -53,21 +53,25 @@ public class Player extends Entity{
 	
 	/**
 	 * Mise à jour des données du joueur
+	 * en verifiant que le dép ne sort pas de l'ecran 
 	 */
 
 	public void update() {
-		if (m_keyH.m_haut) {
-            m_y-= m_speed;
-        }
-        if (m_keyH.m_bas) {
-            m_y+= m_speed;
-        }
-        if (m_keyH.m_gauche) {
-            m_x-= m_speed;
-        }
-        if (m_keyH.m_droite) {
-            m_x+= m_speed;
-        }
+		 int limit_Y= m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE;
+		 int limit_X= m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE;
+		
+		  if (m_keyH.m_haut && (m_y-m_speed>= 0)) {
+	            m_y-=m_speed;
+	        }
+	        if (m_keyH.m_bas && (m_y+m_speed<=limit_Y)) {
+	            m_y +=m_speed;
+	        }
+	        if (m_keyH.m_gauche && (m_x-m_speed >= 0)) {
+	            m_x -= m_speed;
+	        }
+	        if (m_keyH.m_droite && (m_x+m_speed <=limit_X)) {
+	            m_x+= m_speed;
+	        }
 	}
 	
 	/**
