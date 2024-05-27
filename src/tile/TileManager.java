@@ -43,10 +43,12 @@ public class TileManager {
 			
 			m_tile[1] = new Tile();
 			m_tile[1].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK2.png"));
-			
+			m_tile[1].m_collision = true;
+
 			m_tile[2] = new Tile();
 			m_tile[2].m_image = ImageIO.read(getClass().getResource("/tiles/WATER.png"));
-			
+			m_tile[2].m_collision = true;
+
 			m_tile[3] = new Tile();
 			m_tile[3].m_image = ImageIO.read(getClass().getResource("/tiles/LAVA.png"));
 			
@@ -120,4 +122,18 @@ public class TileManager {
 		}
 		
 	}
+	
+	//trouver le num de tuile à partir de ses coordonnées
+	public int getTileNum(int x,int y) {
+	    return m_mapTileNum[x][y];
+	}
+
+	//@return true si une tuile spécifiée par son numéro est un obstacle
+	public boolean isCollision(int n) {
+	    return m_tile[n].m_collision==true;
+	}
+
+	
+	
+
 }

@@ -8,9 +8,26 @@ import java.awt.image.BufferedImage;
  */
 public class Tile {
 	public BufferedImage m_image;		//image
-	public boolean m_collision;			//début de gestion de collision entre éléments
+	public boolean m_collision;			//dï¿½but de gestion de collision entre ï¿½lï¿½ments
 	
 	Tile(){
 		m_collision = false;
 	}
+	
+	public BufferedImage getM_image() {
+		return m_image;
+	}
+
+	public void setM_image(BufferedImage m_image) {
+		this.m_image = m_image;
+	}
+
+	public boolean isM_collision() {
+		return m_collision;
+	}
+
+	public void setM_collision(boolean m_collision) {
+		this.m_collision = m_collision;
+	}
+
 }

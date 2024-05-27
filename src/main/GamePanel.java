@@ -32,8 +32,10 @@ public class GamePanel extends JPanel implements Runnable{
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
-	TileManager m_tileM;
+	private TileManager m_tileM;
 		
+	
+
 	/**
 	 * Constructeur
 	 */
@@ -41,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		m_tileM = new TileManager(this);
+		set_tileM(new TileManager(this));
 		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -104,9 +106,17 @@ public class GamePanel extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		m_tileM.draw(g2);
+		get_tileM().draw(g2);
 		m_player.draw(g2);
 		g2.dispose();
+	}
+
+	public TileManager get_tileM() {
+		return m_tileM;
+	}
+
+	public void set_tileM(TileManager m_tileM) {
+		this.m_tileM = m_tileM;
 	}
 	
 }
