@@ -40,7 +40,8 @@ public class TileManager {
 		try {
 			m_tile[0] = new Tile();
 			m_tile[0].m_image = ImageIO.read(getClass().getResource("/tiles/GRASS.png"));
-			
+			m_tile[0].m_collision = true;
+
 			m_tile[1] = new Tile();
 			m_tile[1].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK2.png"));
 			m_tile[1].m_collision = true;
@@ -49,8 +50,6 @@ public class TileManager {
 			m_tile[2].m_image = ImageIO.read(getClass().getResource("/tiles/WATER.png"));
 			m_tile[2].m_collision = true;
 
-			m_tile[3] = new Tile();
-			m_tile[3].m_image = ImageIO.read(getClass().getResource("/tiles/LAVA.png"));
 			
 			m_tile[4] = new Tile();
 			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/SAND.png"));
@@ -58,6 +57,25 @@ public class TileManager {
 			m_tile[5] = new Tile();
 			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/SNOW.png"));
 			
+			m_tile[6] = new Tile();
+			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/mur1.png"));
+
+			m_tile[7] = new Tile();
+			m_tile[7].m_image = ImageIO.read(getClass().getResource("/tiles/mur2.png"));
+
+			m_tile[8] = new Tile();
+			m_tile[8].m_image = ImageIO.read(getClass().getResource("/tiles/terre.png"));
+			m_tile[8].m_collision = true;
+
+			m_tile[9] = new Tile();
+			m_tile[9].m_image = ImageIO.read(getClass().getResource("/tiles/gris.png"));
+			m_tile[9].m_collision = true;
+
+			m_tile[3] = new Tile();
+			m_tile[3].m_image = ImageIO.read(getClass().getResource("/tiles/bloc.png"));
+			m_tile[3].m_collision = true;
+
+	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
