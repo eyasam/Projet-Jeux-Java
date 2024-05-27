@@ -36,11 +36,11 @@ public class Player extends Entity{
 	protected void setDefaultValues() {
 		m_x = 100;
 		m_y = 100;
-		m_speed = 4;
+		m_speed =2;
 	}
 	
 	/**
-	 * R�cup�ration de l'image du personnage
+	 * Récuperation de l'image du personnage
 	 */
 	public void getPlayerImage() {
 		//gestion des expections 
@@ -52,12 +52,22 @@ public class Player extends Entity{
 	}
 	
 	/**
-	 * Mise � jour des donn�es du joueur
+	 * Mise à jour des données du joueur
 	 */
+
 	public void update() {
-		
-		
-		
+		if (m_keyH.m_haut) {
+            m_y-= m_speed;
+        }
+        if (m_keyH.m_bas) {
+            m_y+= m_speed;
+        }
+        if (m_keyH.m_gauche) {
+            m_x-= m_speed;
+        }
+        if (m_keyH.m_droite) {
+            m_x+= m_speed;
+        }
 	}
 	
 	/**
