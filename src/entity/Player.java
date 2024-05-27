@@ -21,7 +21,7 @@ public class Player extends Entity{
 	private boolean sauter= false;
 	private boolean tomber = false;
 	private double gravity = 0.5;
-	private int m_chute = 0;;
+	private double m_chute = 0.0;;
 
 
 	/**
@@ -83,7 +83,7 @@ public class Player extends Entity{
 			m_x+= m_speed;
 		}
 
-		if (m_keyH.m_saut && !sauter && !tomber) {
+		if (m_keyH.m_haut && !sauter && !tomber) {
 			sauter = true;
 		}
 
@@ -105,6 +105,9 @@ public class Player extends Entity{
 		if (m_y>limit_Y) {
 			m_y=limit_Y;
 			tomber=false;
+		} else 
+		if (isObstacle(m_x,m_y+m_gp.TILE_SIZE)){
+			tomber = false;
 		} else {
 			tomber = true;
 		}

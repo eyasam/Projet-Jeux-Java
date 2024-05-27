@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
  */
 public class KeyHandler implements KeyListener{
 
-	public boolean m_bas, m_gauche, m_droite,m_saut;
+	public boolean m_haut, m_bas, m_gauche, m_droite;
 	
 	/**
      * méthode appelée lorsqu une touche est pressée puis relâchée rapidement
@@ -29,7 +29,9 @@ public class KeyHandler implements KeyListener{
 		// r�cup�re le code du boutton appuye
 		int code = e.getKeyCode();
 		System.out.println(code);
-	
+		if (code ==90) { //Z
+			m_haut= true; 
+        }
         if (code ==83) { //S arriere
         	m_bas= true; 
         }
@@ -39,9 +41,7 @@ public class KeyHandler implements KeyListener{
         if (code ==68) { //D droite
         	m_droite= true; 
         }
-        if (code == 32) { // espace sauter
-            m_saut = true;
-        }
+       
 	}
 
 	
@@ -53,19 +53,19 @@ public class KeyHandler implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code =e.getKeyCode();
-
-        if (code ==83) { 
+		if (code ==90) { //Z
+			m_haut= false; 
+        }
+        if (code ==83) { //S
         	m_bas= false; 
         }
-        if (code ==81) { 
+        if (code ==81) { //Q
         	m_gauche= false; 
         }
-        if (code ==68) { 
+        if (code ==68) { //D
         	m_droite= false; 
         }
-        if (code == 32) { 
-            m_saut = false;
-        }
+      
 	}
 
 }
