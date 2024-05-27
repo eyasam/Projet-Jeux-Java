@@ -17,7 +17,13 @@ public class Player extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
-	
+
+	private boolean sauter= false;
+	private boolean tomber = false;
+	private double gravity = 0.5;
+	private int m_chute = 0;;
+
+
 	/**
 	 * Constructeur de Player
 	 * @param a_gp GamePanel, pannel principal du jeu
@@ -29,7 +35,7 @@ public class Player extends Entity{
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}
-	
+
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
@@ -37,8 +43,11 @@ public class Player extends Entity{
 		m_x = 100;
 		m_y = 100;
 		m_speed =2;
+		sauter = false;
+		tomber = true; 
+		m_chute=0;
 	}
-	
+
 	/**
 	 * Récuperation de l'image du personnage
 	 */
@@ -50,7 +59,7 @@ public class Player extends Entity{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Mise à jour des données du joueur
 	 * en verifiant que le dép ne sort pas de l'ecran 
@@ -58,11 +67,6 @@ public class Player extends Entity{
 	public void update() {
 		int limit_Y= m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE; //max en bas
 		int limit_X= m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE; //max a droite
-
-		int newY_H=m_y-m_speed;
-		if (m_keyH.m_haut && (newY_H>=0) && (!isObstacle(m_x,newY_H))) {
-			m_y-=m_speed;
-		}
 
 		int newY_B=m_y+m_speed;
 		if (m_keyH.m_bas && (newY_B<=limit_Y) && (!isObstacle(m_x,newY_B+m_gp.TILE_SIZE))) { // assurer que la tuile est juste en dessous du joueur dans la direction du déplacement
@@ -73,45 +77,69 @@ public class Player extends Entity{
 		if (m_keyH.m_gauche && (newX_G>=0) && (!isObstacle(newX_G,m_y))) {
 			m_x -= m_speed;
 		}
-		
+
 		int newX_D=m_x+m_speed;
 		if (m_keyH.m_droite && (newX_D<=limit_X) && (!isObstacle(newX_D+m_gp.TILE_SIZE,m_y))) {
 			m_x+= m_speed;
 		}
+
+		if (m_keyH.m_saut && !sauter && !tomber) {
+			sauter = true;
+		}
+
+		if (sauter) {
+			m_chute= -10;// valeur negative puisque vers le c une chute
+			sauter = false;
+			tomber = true;
+		}
+
+		if (tomber) {
+			m_chute+=gravity; //acceleration de la chute
+			if (m_chute>10) {
+				m_chute=10;// on suppose que 10 est le max de la chute
+			}
+			m_y+=m_chute;
+		}
+		
+		
+		if (m_y>limit_Y) {
+			m_y=limit_Y;
+			tomber=false;
+		} else {
+			tomber = true;
+		}
 	}
 
-    /*
-     * Vérifier si la tuile est un obstacle
-     *@param x : coordonnee horizontale de la tuile
-     *@param y : coordonnee verticale de la tuile
-     * */
+	/*
+	 * Vérifier si la tuile est un obstacle
+	 *@param x : coordonnee horizontale de la tuile
+	 *@param y : coordonnee verticale de la tuile
+	 * */
 	private boolean isObstacle(int x,int y) {
 		boolean test_col = false;
-		
-	    //indice de la tuile 
-	    int tileX =x/m_gp.TILE_SIZE;
-	    int tileY =y/m_gp.TILE_SIZE;
 
-	    if ((tileX>=0) && 
-	    	(tileX<m_gp.MAX_SCREEN_COL) && 
-	        (tileY>=0) && 
-	        (tileY<m_gp.MAX_SCREE_ROW)) {
-	    	// t c le num de la tuile (num brick=1)
-	        int t = m_gp.get_tileM().getTileNum(tileX,tileY);
-	        test_col= m_gp.get_tileM().isCollision(t);
-	        
+		//indice de la tuile 
+		int tileX =x/m_gp.TILE_SIZE;
+		int tileY =y/m_gp.TILE_SIZE;
+
+		if ((tileX>=0) && 
+				(tileX<m_gp.MAX_SCREEN_COL) && 
+				(tileY>=0) && 
+				(tileY<m_gp.MAX_SCREE_ROW)) {
+			// t c le num de la tuile (num brick=1)
+			int t = m_gp.get_tileM().getTileNum(tileX,tileY);
+			test_col= m_gp.get_tileM().isCollision(t);
+			/*
 	        if (test_col) {
 	        	System.out.println("\nOUPSSS Collision : \ntuile x : "+tileX +", tuile y :"+tileY);
 		        System.out.println("c la tuile num :  "+t);
-	        }
-	        
-
-	        return test_col;
-	    }
-	    return test_col;
+	        }*/
+			return test_col;
+		}
+		return test_col;
 	}
 
-	
+
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
 	 * @param a_g2 Graphics2D 
@@ -122,6 +150,6 @@ public class Player extends Entity{
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
-	
+
 
 }
