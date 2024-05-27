@@ -101,7 +101,7 @@ public class Player extends Entity{
 	        test_col= m_gp.get_tileM().isCollision(t);
 	        
 	        if (test_col) {
-	        	System.out.println("\nOUPSSS Collision : \ntuile x "+tileX +", tuile y "+tileY);
+	        	System.out.println("\nOUPSSS Collision : \ntuile x : "+tileX +", tuile y :"+tileY);
 		        System.out.println("c la tuile num :  "+t);
 	        }
 	        
