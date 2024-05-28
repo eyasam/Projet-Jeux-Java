@@ -28,8 +28,7 @@ public class Player extends Entity{
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
 	public Player(GamePanel a_gp, KeyHandler a_keyH) {
-		this.m_gp = a_gp;
-		this.m_keyH = a_keyH;
+        super(a_gp, a_keyH);
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}

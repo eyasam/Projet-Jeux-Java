@@ -16,8 +16,7 @@ public class Fish extends Entity {
 	private int saut; 
 
 	public Fish(GamePanel a_gp, KeyHandler a_keyH, int x) {
-		this.m_gp = a_gp;
-		this.m_keyH = a_keyH;
+        super(a_gp,a_keyH);
 		this.setDefaultValues(x);
 		this.getFishImage();
 		this.random = new Random();

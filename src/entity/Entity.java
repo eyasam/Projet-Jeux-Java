@@ -19,8 +19,12 @@ public abstract class Entity {
 	GamePanel m_gp;
 	KeyHandler m_keyH;
 	
+	 public Entity(GamePanel gp, KeyHandler keyH) {
+	        this.m_gp = gp;
+	        this.m_keyH = keyH;
+	    }
+	
 	public abstract void update();
 
-	
 	public abstract void draw(Graphics2D a_g2);
 }
