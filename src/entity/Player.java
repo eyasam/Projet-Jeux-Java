@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,7 +21,9 @@ public class Player extends Entity{
 	private boolean tomber = false;
 	private double gravity = 0.5;
 	private double m_chute = 0.0;;
-	private boolean facingLeft;
+	private boolean m_visage;
+	private int m_vie = 100; 		
+
 
 
 	/**
@@ -44,7 +47,7 @@ public class Player extends Entity{
 		sauter = false;
 		tomber = true; 
 		m_chute=0;
-		facingLeft = false;
+		m_visage = false;
 	}
 
 	/**
@@ -77,14 +80,14 @@ public class Player extends Entity{
 		int newX_G=m_x-m_speed;
 		if (m_keyH.m_gauche && (newX_G>=0) && (!isObstacle(newX_G,m_y))) {
 			m_x -= m_speed;
-			facingLeft = true;
+			m_visage = true;
 
 		}
 
 		int newX_D=m_x+m_speed;
 		if (m_keyH.m_droite && (newX_D<=limit_X) && (!isObstacle(newX_D+m_gp.TILE_SIZE,m_y))) {
 			m_x+= m_speed;
-			facingLeft = false;
+			m_visage = false;
 
 		}
 
@@ -117,12 +120,24 @@ public class Player extends Entity{
 		} else {
 			tomber = true;
 		}
+		
+		
 
 		if (toucherEau()) {
-			setDefaultValues();
-
-		}
+			  decrementVie();
+	            setDefaultValues();
+	            if (m_vie <= 0) {
+	                System.out.print("GAME OVER");
+	            }
+	        }
+		
 	}
+	 private void decrementVie() {
+	        m_vie -= 10;
+	        if (m_vie < 0) {
+	            m_vie = 0;
+	        }
+	    }
 
 
 	private boolean isOnPlatform(Platform p) {
@@ -173,22 +188,46 @@ public class Player extends Entity{
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		  if (facingLeft) {
-	            l_image = m_reverseImage;
-	        } else {
-	            l_image = m_idleImage;
-	        }
+		if (m_visage) {
+			l_image= m_reverseImage;
+		} else {
+			l_image= m_idleImage;
+		}
 
-			a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
-	}
+		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+
+		//bar
+        int largeur = 100;
+        int hauteur = 10;
+        int vie_restant = (int) ((double) m_vie/100 * largeur);
+
+        if(m_vie<25) {
+            a_g2.setColor(Color.RED);
+        }else if(m_vie<50) {
+            a_g2.setColor(Color.ORANGE);
+        }else{
+            a_g2.setColor(Color.GREEN);
+        }
+       
+        a_g2.fillRect(m_x,m_y-20, vie_restant,hauteur);
+
+      //background
+        a_g2.setColor(Color.BLACK);
+        a_g2.drawRect(m_x,m_y-20,largeur,hauteur); 
+   
+        //pourcentage
+        a_g2.setColor(Color.WHITE);
+        a_g2.drawString(m_vie + "%", m_x + (largeur/2)-10, m_y-25);
+    }
 
 
 
 	private boolean toucherEau() {
 		int tileX = m_x / m_gp.TILE_SIZE;
 		int tileY = m_y / m_gp.TILE_SIZE;
-
+		
 		return m_gp.get_tileM().getTileNum(tileX, tileY) == 2;
 	}
+
 
 }
