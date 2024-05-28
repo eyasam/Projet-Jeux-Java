@@ -29,4 +29,12 @@ public abstract class Entity {
 	}
 
 	public abstract void draw(Graphics2D a_g2);
+
+	public int getM_y() {
+		return m_y;
+	}
+
+	public void setM_y(int m_y) {
+		this.m_y = m_y;
+	}
 }

@@ -70,8 +70,17 @@ public class Platform extends Entity{
 
 	}
 
-
-
+	 public int getTopY() {
+	        return m_y;
+	    }
+	 
+	  public boolean isPlayerAbove(Player player) {
+	        int playerBottomY = player.getM_y() + m_gp.TILE_SIZE; // Position Y du bas du joueur
+	        return playerBottomY <= getTopY(); // Vérifie si le bas du joueur est au-dessus du haut de la plateforme
+	   
+	  }
+	  
+	  
 
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu

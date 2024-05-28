@@ -100,15 +100,28 @@ public class Player extends Entity{
 		}
 		
 		
-		if (m_y>limit_Y) {
-			m_y=limit_Y;
-			tomber=false;
-		} else 
-		if (isObstacle(m_x,m_y+m_gp.TILE_SIZE)){
-			tomber = false;
-		} else {
-			tomber = true;
-		}
+		 if (m_y > limit_Y) {
+	            m_y = limit_Y;
+	            tomber = false;
+	        } else if (isObstacle(m_x, m_y + m_gp.TILE_SIZE)) {
+	            tomber = false;
+	        } else if (isOnPlatform(m_gp.m_platform2)) {
+	            tomber = false;
+	        } else {
+	            tomber = true;
+	        }
+		
+	}
+
+
+	private boolean isOnPlatform(Platform p) {
+            if (m_x < p.m_x + m_gp.TILE_SIZE * 3 && m_x + m_gp.TILE_SIZE > p.m_x &&
+                m_y + m_gp.TILE_SIZE <= p.m_y && m_y + m_gp.TILE_SIZE + m_chute >= p.m_y) {
+                m_y = p.m_y - m_gp.TILE_SIZE;
+                return true;
+            
+        }
+        return false;
 	}
 
 	/*
@@ -152,6 +165,14 @@ public class Player extends Entity{
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
+	
+	   public int getBottomY() {
+	        return m_y + m_gp.TILE_SIZE; // Position Y du bas du joueur
+	    }
+
+	    public int getRightX() {
+	        return m_x + m_gp.TILE_SIZE; // Position X du côté droit du joueur
+	    }
 
 
 }
