@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import entity.Fish;
+import entity.Platform;
 import entity.Player;
 import tile.TileManager;
 
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
+	Platform m_platform1,m_platform2,m_platform3;
 	List<Fish> fishList;
 	private TileManager m_tileM;
 
@@ -48,6 +50,10 @@ public class GamePanel extends JPanel implements Runnable{
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
+		m_platform1 = new Platform(this, m_keyH,290);
+		m_platform2 = new Platform(this, m_keyH,330);
+		m_platform3 = new Platform(this, m_keyH,295);
+
 		fishList = new ArrayList<>();
 		Random random = new Random();
 
@@ -111,6 +117,10 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	public void update() {
 		m_player.update();
+		m_platform1.update(140,330);
+		m_platform2.update(200,440);
+		m_platform3.update(200,440);
+
 		for (Fish fish:fishList) {
 			fish.update();
 		}	}
@@ -126,6 +136,10 @@ public class GamePanel extends JPanel implements Runnable{
 			fish.draw(g2);
 		}
 		m_player.draw(g2);
+		m_platform1.draw(g2);
+		m_platform2.draw(g2);
+		m_platform3.draw(g2);
+
 
 		g2.dispose();
 	}
