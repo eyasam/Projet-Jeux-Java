@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import entity.Fish;
+import entity.Fruit;
 import entity.Platform;
 import entity.Player;
 import tile.TileManager;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public Platform m_platform;
 	List<Fish> fishList;
 	private TileManager m_tileM;
+	private List<Fruit> fruitList;
 
 
 	private int map_indice = 0;
@@ -62,6 +64,11 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);
 		this.addKeyListener(m_keyH);
 		this.setFocusable(true);
+		
+		fruitList = new ArrayList<>();
+		fruitList.add(new Fruit(this, m_keyH, 200,"Strawberry"));
+		fruitList.add(new Fruit(this, m_keyH, 150,"Orange"));
+		fruitList.add(new Fruit(this, m_keyH, 300,"Pastheque"));
 		
 	}
 
@@ -139,6 +146,13 @@ public class GamePanel extends JPanel implements Runnable{
 		        m_player.setM_x(0); 
 		        m_player.setM_y(TILE_SIZE);
 	        }
+		 
+		 for (Fruit fruit : fruitList) {
+				if (fruit.isVisible() && checkCollision(m_player, fruit)) {
+					fruit.setVisible(false); // Faites disparaître le fruit s'il y a collision
+					System.out.println("test");
+					}}
+				
 	}
 	
 
@@ -159,12 +173,25 @@ public class GamePanel extends JPanel implements Runnable{
 	            fish.draw(g2);
 	        }
 	        m_platform.draw(g2);
+	        for (Fruit fruit : fruitList) {
+				fruit.draw(g2);
+			}
 	        
 	    } 
 	    
 	    g2.dispose();
 	}
 
+	private boolean checkCollision(Player player, Fruit fruit) {
+		int playerX = m_player.getM_x();
+		int playerY = m_player.getM_y();
+		int fruitX = fruit.getM_x();
+		int fruitY = fruit.getM_y();
+		int tolerance = 24;
+		// Vérifiez si les positions se chevauchent (vous pouvez ajuster les conditions pour votre logique spécifique)
+	    return Math.abs(playerX - fruitX) < tolerance && Math.abs(playerY - fruitY) < tolerance;
+	}
+	
 	public TileManager get_tileM() {
 		return m_tileM;
 	}
