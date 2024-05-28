@@ -60,9 +60,8 @@ public class Platform extends Entity{
 	 * en verifiant que le dép ne sort pas de l'ecran 
 	 */
 	public void update(int limitG,int limitD) {
-
-       m_x+=m_speed*m_direction;
 		
+       m_x+=m_speed*m_direction;
 		  if ((m_x>limitD) || (m_x<limitG)) {
 	            m_direction *= -1;
 	        }
@@ -74,9 +73,10 @@ public class Platform extends Entity{
 	        return m_y;
 	    }
 	 
-	  public boolean isPlayerAbove(Player player) {
-	        int playerBottomY = player.getM_y() + m_gp.TILE_SIZE; // Position Y du bas du joueur
-	        return playerBottomY <= getTopY(); // Vérifie si le bas du joueur est au-dessus du haut de la plateforme
+	 //verifie si le joueur est au dessus de la plateform
+	  public boolean isPlayerAbove(Player p) {
+	        int Py_min = p.getM_y() + m_gp.TILE_SIZE; 
+	        return Py_min<=getTopY(); 
 	   
 	  }
 	  

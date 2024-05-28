@@ -121,34 +121,34 @@ public class Player extends Entity{
 		} else {
 			tomber = true;
 		}
-		
-		
+
+
 
 		if (restart_fall() ) {
-			  decrementVie();
-	            setDefaultValues();
-	            if (m_vie <= 0) {
-	            	GameOverDialog();
-	                System.out.print("GAME OVER");
-	            }
-	        }
-		
-	}
-	
-	 private boolean toucherLava() {
+			decrementVie();
+			setDefaultValues();
+			if (m_vie <= 0) {
+				GameOverDialog();
+				System.out.print("GAME OVER");
+			}
+		}
 
-		 return false;
+	}
+
+	private boolean toucherLava() {
+
+		return false;
 	}
 
 	private void decrementVie() {
-	        m_vie -= 25;
-	        if (m_vie < 0) {
-	            m_vie = 0;
-	        }
-	        if (m_vie == 0) {
-	           GameOverDialog(); 
-	        }
-	    }
+		m_vie -= 25;
+		if (m_vie < 0) {
+			m_vie = 0;
+		}
+		if (m_vie == 0) {
+			GameOverDialog(); 
+		}
+	}
 
 
 	private boolean isOnPlatform(Platform p) {
@@ -208,55 +208,63 @@ public class Player extends Entity{
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 
 		//bar
-        int largeur = 100;
-        int hauteur = 10;
-        int vie_restant = (int) ((double) m_vie/100 * largeur);
+		int largeur = 100;
+		int hauteur = 10;
+		int vie_restant = (int) ((double) m_vie/100 * largeur);
 
-        if(m_vie<25) {
-            a_g2.setColor(Color.RED);
-        }else if(m_vie<50) {
-            a_g2.setColor(Color.ORANGE);
-        }else{
-            a_g2.setColor(Color.GREEN);
-        }
-       
-        a_g2.fillRect(m_x,m_y-20, vie_restant,hauteur);
+		if(m_vie<25) {
+			a_g2.setColor(Color.RED);
+		}else if(m_vie<50) {
+			a_g2.setColor(Color.ORANGE);
+		}else{
+			a_g2.setColor(Color.GREEN);
+		}
 
-      //background
-        a_g2.setColor(Color.BLACK);
-        a_g2.drawRect(m_x,m_y-20,largeur,hauteur); 
-   
-        //pourcentage
-        a_g2.setColor(Color.WHITE);
-        a_g2.drawString(m_vie + "%", m_x + (largeur/2)-10, m_y-25);
-    }
+		a_g2.fillRect(m_x,m_y-20, vie_restant,hauteur);
+
+		//background
+		a_g2.setColor(Color.BLACK);
+		a_g2.drawRect(m_x,m_y-20,largeur,hauteur); 
+
+		//pourcentage
+		a_g2.setColor(Color.WHITE);
+		a_g2.drawString(m_vie + "%", m_x + (largeur/2)-10, m_y-25);
+	}
 
 
 	private void GameOverDialog() {
-	    int option = JOptionPane.showOptionDialog(null, 
-	                                              "GAME OVER", 
-	                                              "Game Over", 
-	                                              JOptionPane.YES_NO_OPTION, 
-	                                              JOptionPane.INFORMATION_MESSAGE, 
-	                                              null, 
-	                                              new String[]{"Restart", "Exit"}, 
-	                                              "Restart");
-	    if (option == JOptionPane.YES_OPTION) {
-	    	m_vie=100;
-	    	setDefaultValues();
-	    } else {
-	        System.exit(0);
-	    }
+		int option = JOptionPane.showOptionDialog(null, 
+				"GAME OVER", 
+				"Game Over", 
+				JOptionPane.YES_NO_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				new String[]{"Restart", "Exit"}, 
+				"Restart");
+		if (option == JOptionPane.YES_OPTION) {
+			m_vie=100;
+			setDefaultValues();
+		} else {
+			System.exit(0);
+		}
 	}
 
 
 
-    
+
 	private boolean restart_fall() {
 		int tileX = m_x / m_gp.TILE_SIZE;
 		int tileY = m_y / m_gp.TILE_SIZE;
-		
+
 		return (m_gp.get_tileM().getTileNum(tileX, tileY) == 2)||(m_gp.get_tileM().getTileNum(tileX, tileY) == 11);
+	}
+
+	public void incrementVie(int x) {
+		m_vie+=x;
+
+		if (m_vie > 100) {
+			m_vie=100;
+			}
 	}
 
 

@@ -29,16 +29,16 @@ public class KeyHandler implements KeyListener{
 		// r�cup�re le code du boutton appuye
 		int code = e.getKeyCode();
 		System.out.println(code);
-		if (code ==90) { //Z
+		if (code ==90 || code ==38 || code ==32) { //Z
 			m_haut= true; 
         }
-        if (code ==83) { //S arriere
+        if (code ==83 || code ==40) { //S arriere
         	m_bas= true; 
         }
-        if (code ==81) { //Q gauche
+        if (code ==81 || code ==37) { //Q gauche
         	m_gauche= true; 
         }
-        if (code ==68) { //D droite
+        if (code ==68 || code ==39) { //D droite
         	m_droite= true; 
         }
        
@@ -53,16 +53,16 @@ public class KeyHandler implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code =e.getKeyCode();
-		if (code ==90) { //Z
+		if (code ==90 || code ==38 || code ==32) { //Z
 			m_haut= false; 
         }
-        if (code ==83) { //S
+        if (code ==83 || code ==40) { //S
         	m_bas= false; 
         }
-        if (code ==81) { //Q
+        if (code ==81 || code ==37) { //Q
         	m_gauche= false; 
         }
-        if (code ==68) { //D
+        if (code ==68 || code ==39) { //D
         	m_droite= false; 
         }
       

@@ -11,25 +11,28 @@ import main.KeyHandler;
 
 public class Fruit extends Entity{
 
-	private int m_direction;
-	public boolean m_collision;
-	private String fruitType; 
+	private String type; 
 	private boolean isVisible;
 
 
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
 	public Fruit(GamePanel a_gp, KeyHandler a_keyH, int y, String fruitType) {
 		super(a_gp, a_keyH);
-		this.fruitType = fruitType;
+		this.type = fruitType;
 		setDefaultValues(y);
 		getFruitImage();
-		m_collision = true;
-		isVisible = true;
-
 	}
 
 	private void getFruitImage() {
 		try {
-			String imagePath = "/tiles/" + fruitType.toLowerCase() + ".png";
+			String imagePath = "/tiles/" + type + ".png";
 			m_idleImage = ImageIO.read(getClass().getResource(imagePath));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -37,7 +40,8 @@ public class Fruit extends Entity{
 	}
 
 	private void setDefaultValues(int y) {
-		switch (fruitType) {
+		isVisible=true;
+		switch (type) {
 		case "Strawberry":
 			m_x = 270;
 			break;
@@ -48,9 +52,7 @@ public class Fruit extends Entity{
 			m_x = 175;
 			break;
 		}
-		m_y = y;
-		m_speed = 2;
-		m_direction = 1;
+		m_y=y;
 
 	}
 
@@ -62,12 +64,6 @@ public class Fruit extends Entity{
 		}
 	}
 	
-	public boolean isVisible() {
-        return isVisible;
-    }
 
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
-    }
 
 }

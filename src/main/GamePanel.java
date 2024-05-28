@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
 	private int map_indice = 0;
-    private String[] mapFiles = {"/maps/map2.txt", "/maps/map.txt"}; 
+	private String[] mapFiles = {"/maps/map2.txt", "/maps/map.txt"}; 
 
 	/**
 	 * Constructeur
@@ -54,9 +54,9 @@ public class GamePanel extends JPanel implements Runnable{
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		
+
 		objects_map1();
-	
+
 		set_tileM(new TileManager(this));
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -64,12 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);
 		this.addKeyListener(m_keyH);
 		this.setFocusable(true);
-		
-		fruitList = new ArrayList<>();
-		fruitList.add(new Fruit(this, m_keyH, 200,"Strawberry"));
-		fruitList.add(new Fruit(this, m_keyH, 150,"Orange"));
-		fruitList.add(new Fruit(this, m_keyH, 300,"Pastheque"));
-		
+
 	}
 
 	private void objects_map1() {
@@ -82,9 +77,14 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 
 		m_platform = new Platform(this, m_keyH,330);
+
+		fruitList = new ArrayList<>();
+		fruitList.add(new Fruit(this, m_keyH, 200,"Strawberry"));
+		fruitList.add(new Fruit(this, m_keyH, 150,"Orange"));
+		fruitList.add(new Fruit(this, m_keyH, 300,"Pastheque"));
 	}
-	
-	
+
+
 	/**
 	 * Lancement du thread principal
 	 */
@@ -135,26 +135,29 @@ public class GamePanel extends JPanel implements Runnable{
 		if (map_indice == 0) {
 			m_platform.update(295,410);
 
-            for (Fish fish :fishList) {
-                fish.update();
-            }
-        } 
+			for (Fish fish :fishList) {
+				fish.update();
+			}
+			for (Fruit fruit :fruitList) {
+				if (fruit.isVisible() && checkCollision(fruit)) {
+					m_player.incrementVie(15);
+					fruit.setVisible(false); 
+					System.out.println("a disparu");
+				}}
+		} 
+
+		if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE))&& ((map_indice == 0))) {
+			fishList.clear();	
+			fruitList.clear();	
+			m_tileM.changeMap(mapFiles[1]);
+			m_player.setM_x(0); 
+			m_player.setM_y(TILE_SIZE);
+		}
+
 		
-		 if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE)) && ((map_indice == 0))) {
-				fishList.clear();	
-		        m_tileM.changeMap(mapFiles[1]);
-		        m_player.setM_x(0); 
-		        m_player.setM_y(TILE_SIZE);
-	        }
-		 
-		 for (Fruit fruit : fruitList) {
-				if (fruit.isVisible() && checkCollision(m_player, fruit)) {
-					fruit.setVisible(false); // Faites disparaître le fruit s'il y a collision
-					System.out.println("test");
-					}}
-				
+
 	}
-	
+
 
 
 
@@ -165,33 +168,43 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		get_tileM().draw(g2);
-		
+
 		m_player.draw(g2);
-		
+
 		if (map_indice == 0) {
-	        for (Fish fish : fishList) {
-	            fish.draw(g2);
-	        }
-	        m_platform.draw(g2);
-	        for (Fruit fruit : fruitList) {
-				fruit.draw(g2);
+			for (Fish fish :fishList) {
+				fish.draw(g2);
 			}
-	        
-	    } 
-	    
-	    g2.dispose();
+			m_platform.draw(g2);
+			for (Fruit fruit :fruitList) {
+				fruit.draw(g2);
+			}}
+
+		else if (map_indice == 1) {
+			for (Fruit fruit :fruitList) {
+				fruit.draw(g2);
+			}	
+			} 
+
+		g2.dispose();
 	}
 
-	private boolean checkCollision(Player player, Fruit fruit) {
-		int playerX = m_player.getM_x();
-		int playerY = m_player.getM_y();
-		int fruitX = fruit.getM_x();
-		int fruitY = fruit.getM_y();
+	/*
+	 *  verifie s'il y a une collision entre le joueur et un fruit donne (avec une tolerance de 24)
+	 * */
+
+	private boolean checkCollision(Fruit f) {
+		int player_x=m_player.m_x;
+		int player_y=m_player.m_y;
+
 		int tolerance = 24;
-		// Vérifiez si les positions se chevauchent (vous pouvez ajuster les conditions pour votre logique spécifique)
-	    return Math.abs(playerX - fruitX) < tolerance && Math.abs(playerY - fruitY) < tolerance;
+
+		boolean test_x=Math.abs(player_x-f.m_x)<tolerance;
+		boolean test_y=Math.abs(player_y -f.m_y)<tolerance;
+
+		return (test_x && test_y);
 	}
-	
+
 	public TileManager get_tileM() {
 		return m_tileM;
 	}
