@@ -20,6 +20,7 @@ public class Player extends Entity{
 	private boolean tomber = false;
 	private double gravity = 0.5;
 	private double m_chute = 0.0;;
+	private boolean facingLeft;
 
 
 	/**
@@ -28,7 +29,7 @@ public class Player extends Entity{
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
 	public Player(GamePanel a_gp, KeyHandler a_keyH) {
-        super(a_gp, a_keyH);
+		super(a_gp, a_keyH);
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}
@@ -37,12 +38,13 @@ public class Player extends Entity{
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
+		m_x = 40;
 		m_y = 100;
 		m_speed =2;
 		sauter = false;
 		tomber = true; 
 		m_chute=0;
+		facingLeft = false;
 	}
 
 	/**
@@ -51,7 +53,8 @@ public class Player extends Entity{
 	public void getPlayerImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/player/mey.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/player/klipartz.png"));
+			m_reverseImage = ImageIO.read(getClass().getResource("/player/klipartzrev.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,11 +77,15 @@ public class Player extends Entity{
 		int newX_G=m_x-m_speed;
 		if (m_keyH.m_gauche && (newX_G>=0) && (!isObstacle(newX_G,m_y))) {
 			m_x -= m_speed;
+			facingLeft = true;
+
 		}
 
 		int newX_D=m_x+m_speed;
 		if (m_keyH.m_droite && (newX_D<=limit_X) && (!isObstacle(newX_D+m_gp.TILE_SIZE,m_y))) {
 			m_x+= m_speed;
+			facingLeft = false;
+
 		}
 
 		if (m_keyH.m_haut && !sauter && !tomber) {
@@ -98,30 +105,34 @@ public class Player extends Entity{
 			}
 			m_y+=m_chute;
 		}
-		
-		
-		 if (m_y > limit_Y) {
-	            m_y = limit_Y;
-	            tomber = false;
-	        } else if (isObstacle(m_x, m_y + m_gp.TILE_SIZE)) {
-	            tomber = false;
-	        } else if (isOnPlatform(m_gp.m_platform2)) {
-	            tomber = false;
-	        } else {
-	            tomber = true;
-	        }
-		
+
+
+		if (m_y > limit_Y) {
+			m_y = limit_Y;
+			tomber = false;
+		} else if (isObstacle(m_x, m_y + m_gp.TILE_SIZE)) {
+			tomber = false;
+		} else if (isOnPlatform(m_gp.m_platform)) {
+			tomber = false;
+		} else {
+			tomber = true;
+		}
+
+		if (toucherEau()) {
+			setDefaultValues();
+
+		}
 	}
 
 
 	private boolean isOnPlatform(Platform p) {
-            if (m_x < p.m_x + m_gp.TILE_SIZE * 3 && m_x + m_gp.TILE_SIZE > p.m_x &&
-                m_y + m_gp.TILE_SIZE <= p.m_y && m_y + m_gp.TILE_SIZE + m_chute >= p.m_y) {
-                m_y = p.m_y - m_gp.TILE_SIZE;
-                return true;
-            
-        }
-        return false;
+		if (m_x < p.m_x + m_gp.TILE_SIZE * 3 && m_x + m_gp.TILE_SIZE > p.m_x &&
+				m_y + m_gp.TILE_SIZE <= p.m_y && m_y + m_gp.TILE_SIZE + m_chute >= p.m_y) {
+			m_y = p.m_y - m_gp.TILE_SIZE;
+			return true;
+
+		}
+		return false;
 	}
 
 	/*
@@ -162,17 +173,22 @@ public class Player extends Entity{
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		  if (facingLeft) {
+	            l_image = m_reverseImage;
+	        } else {
+	            l_image = m_idleImage;
+	        }
+
+			a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
-	
-	   public int getBottomY() {
-	        return m_y + m_gp.TILE_SIZE; // Position Y du bas du joueur
-	    }
 
-	    public int getRightX() {
-	        return m_x + m_gp.TILE_SIZE; // Position X du côté droit du joueur
-	    }
 
+
+	private boolean toucherEau() {
+		int tileX = m_x / m_gp.TILE_SIZE;
+		int tileY = m_y / m_gp.TILE_SIZE;
+
+		return m_gp.get_tileM().getTileNum(tileX, tileY) == 2;
+	}
 
 }

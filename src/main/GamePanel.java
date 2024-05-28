@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
-	public Platform m_platform1,m_platform2;
+	public Platform m_platform;
 	List<Fish> fishList;
 	private TileManager m_tileM;
 
@@ -50,8 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		m_platform1 = new Platform(this, m_keyH,290);
-		m_platform2 = new Platform(this, m_keyH,330);
+		m_platform = new Platform(this, m_keyH,330);
 
 		fishList = new ArrayList<>();
 		Random random = new Random();
@@ -117,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	public void update() {
 		m_player.update();
-		m_platform2.update(295,410);
+		m_platform.update(295,410);
 
 		for (Fish fish:fishList) {
 			fish.update();
@@ -134,7 +133,7 @@ public class GamePanel extends JPanel implements Runnable{
 			fish.draw(g2);
 		}
 		m_player.draw(g2);
-		m_platform2.draw(g2);
+		m_platform.draw(g2);
 
 
 		g2.dispose();
