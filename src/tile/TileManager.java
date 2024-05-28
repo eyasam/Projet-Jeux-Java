@@ -18,7 +18,7 @@ import main.GamePanel;
 public class TileManager {
 	GamePanel m_gp;			//panel du jeu principal
 	Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
-	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
+	int m_maxTiles = 15;	//nombre maximum de tiles chargeable dans le jeu
 	int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
 	
 	/**
@@ -51,10 +51,10 @@ public class TileManager {
 
 			
 			m_tile[4] = new Tile();
-			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/SAND.png"));
+			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/mur2b.png"));
 			
 			m_tile[5] = new Tile();
-			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/SNOW.png"));
+			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/mur2gris.png"));
 			
 			m_tile[6] = new Tile();
 			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/mur1.png"));
@@ -73,7 +73,18 @@ public class TileManager {
 			m_tile[3] = new Tile();
 			m_tile[3].m_image = ImageIO.read(getClass().getResource("/tiles/bloc.png"));
 			m_tile[3].m_collision = true;
-
+			
+			m_tile[10] = new Tile();
+			m_tile[10].m_image = ImageIO.read(getClass().getResource("/tiles/bloc2.png"));
+			m_tile[10].m_collision = true;
+			
+			m_tile[11] = new Tile();
+			m_tile[11].m_image = ImageIO.read(getClass().getResource("/tiles/LAVA2.png"));
+			
+			
+			m_tile[12] = new Tile();
+			m_tile[12].m_image = ImageIO.read(getClass().getResource("/tiles/BLVCK.png"));
+			m_tile[12].m_collision = true;
 	
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -114,6 +125,9 @@ public class TileManager {
 		}
 	}
 	
+	 public void changeMap(String map) {
+	        loadMap(map);
+	    }
 	/**
 	 * Affichage de la carte avec les diff�rentes tuiles
 	 * @param g2

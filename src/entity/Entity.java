@@ -37,4 +37,12 @@ public abstract class Entity {
 	public void setM_y(int m_y) {
 		this.m_y = m_y;
 	}
+
+	public int getM_x() {
+		return m_x;
+	}
+
+	public void setM_x(int m_x) {
+		this.m_x = m_x;
+	}
 }

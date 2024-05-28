@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 import main.GamePanel;
 import main.KeyHandler;
@@ -123,19 +124,29 @@ public class Player extends Entity{
 		
 		
 
-		if (toucherEau()) {
+		if (restart_fall() ) {
 			  decrementVie();
 	            setDefaultValues();
 	            if (m_vie <= 0) {
+	            	GameOverDialog();
 	                System.out.print("GAME OVER");
 	            }
 	        }
 		
 	}
-	 private void decrementVie() {
-	        m_vie -= 10;
+	
+	 private boolean toucherLava() {
+
+		 return false;
+	}
+
+	private void decrementVie() {
+	        m_vie -= 25;
 	        if (m_vie < 0) {
 	            m_vie = 0;
+	        }
+	        if (m_vie == 0) {
+	           GameOverDialog(); 
 	        }
 	    }
 
@@ -221,12 +232,31 @@ public class Player extends Entity{
     }
 
 
+	private void GameOverDialog() {
+	    int option = JOptionPane.showOptionDialog(null, 
+	                                              "GAME OVER", 
+	                                              "Game Over", 
+	                                              JOptionPane.YES_NO_OPTION, 
+	                                              JOptionPane.INFORMATION_MESSAGE, 
+	                                              null, 
+	                                              new String[]{"Restart", "Exit"}, 
+	                                              "Restart");
+	    if (option == JOptionPane.YES_OPTION) {
+	    	m_vie=100;
+	    	setDefaultValues();
+	    } else {
+	        System.exit(0);
+	    }
+	}
 
-	private boolean toucherEau() {
+
+
+    
+	private boolean restart_fall() {
 		int tileX = m_x / m_gp.TILE_SIZE;
 		int tileY = m_y / m_gp.TILE_SIZE;
 		
-		return m_gp.get_tileM().getTileNum(tileX, tileY) == 2;
+		return (m_gp.get_tileM().getTileNum(tileX, tileY) == 2)||(m_gp.get_tileM().getTileNum(tileX, tileY) == 11);
 	}
 
 

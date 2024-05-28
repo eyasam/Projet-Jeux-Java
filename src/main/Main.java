@@ -15,7 +15,7 @@ public class Main {
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.setTitle("ESIR1 - Projet Prog");
+		window.setTitle("Rumble Rush");
 		
 		//Ajout du panel du jeu et d�marrage du thread principal
 		GamePanel gamePanel = new GamePanel();

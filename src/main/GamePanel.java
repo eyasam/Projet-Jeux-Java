@@ -42,6 +42,8 @@ public class GamePanel extends JPanel implements Runnable{
 	private TileManager m_tileM;
 
 
+	private int map_indice = 0;
+    private String[] mapFiles = {"/maps/map2.txt", "/maps/map.txt"}; 
 
 	/**
 	 * Constructeur
@@ -50,16 +52,9 @@ public class GamePanel extends JPanel implements Runnable{
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		m_platform = new Platform(this, m_keyH,330);
-
-		fishList = new ArrayList<>();
-		Random random = new Random();
-
-		for (int i = 0; i < 8; i++) {
-			int initialX = 100 + random.nextInt(350); 
-			fishList.add(new Fish(this, m_keyH, initialX));
-		}
-
+		
+		objects_map1();
+	
 		set_tileM(new TileManager(this));
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -70,6 +65,19 @@ public class GamePanel extends JPanel implements Runnable{
 		
 	}
 
+	private void objects_map1() {
+		fishList = new ArrayList<>();
+		Random random = new Random();
+
+		for (int i = 0; i < 8; i++) {
+			int initialX = 100 + random.nextInt(350); 
+			fishList.add(new Fish(this, m_keyH, initialX));
+		}
+
+		m_platform = new Platform(this, m_keyH,330);
+	}
+	
+	
 	/**
 	 * Lancement du thread principal
 	 */
@@ -116,11 +124,25 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	public void update() {
 		m_player.update();
-		m_platform.update(295,410);
 
-		for (Fish fish:fishList) {
-			fish.update();
-		}	}
+		if (map_indice == 0) {
+			m_platform.update(295,410);
+
+            for (Fish fish :fishList) {
+                fish.update();
+            }
+        } 
+		
+		 if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE)) && ((map_indice == 0))) {
+				fishList.clear();	
+		        m_tileM.changeMap(mapFiles[1]);
+		        m_player.setM_x(0); 
+		        m_player.setM_y(TILE_SIZE);
+	        }
+	}
+	
+
+
 
 	/**
 	 * Affichage des �l�ments
@@ -129,14 +151,18 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		get_tileM().draw(g2);
-		for (Fish fish : fishList) {
-			fish.draw(g2);
-		}
+		
 		m_player.draw(g2);
-		m_platform.draw(g2);
-
-
-		g2.dispose();
+		
+		if (map_indice == 0) {
+	        for (Fish fish : fishList) {
+	            fish.draw(g2);
+	        }
+	        m_platform.draw(g2);
+	        
+	    } 
+	    
+	    g2.dispose();
 	}
 
 	public TileManager get_tileM() {
