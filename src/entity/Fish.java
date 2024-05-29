@@ -50,13 +50,13 @@ public class Fish extends Entity {
 	public void update() {
 		long currentTime = System.currentTimeMillis();
 		if ((currentTime-dernier_saut)>=1500) {
-			saut=random.nextInt(50); 
+			saut=random.nextInt(25); 
 			m_y-=saut;
 			dernier_saut=currentTime;
 		}
 
 		if ((m_y<440) && (currentTime-dernier_saut)>=500) { // il faut qu il descent
-			m_y+=saut;
+			m_y+=25;
 		}
 	}
 

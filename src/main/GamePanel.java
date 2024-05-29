@@ -204,7 +204,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			  if (m_player.getM_x()<=20 && m_player.getM_y()> 410) {
 				    System.out.print("fin");
-			        EndWindow();
+				    CongratsDialog();
 			    }
 		}
 
@@ -212,8 +212,9 @@ public class GamePanel extends JPanel implements Runnable{
 
 	}
 
+	//
 	public void GameOverDialog() {
-		int option = JOptionPane.showOptionDialog(null, 
+		int o=JOptionPane.showOptionDialog(null, 
 				"GAME OVER", 
 				"Game Over", 
 				JOptionPane.YES_NO_OPTION, 
@@ -221,12 +222,11 @@ public class GamePanel extends JPanel implements Runnable{
 				null, 
 				new String[]{"Restart", "Exit"}, 
 				"Restart");
-		if (option == JOptionPane.YES_OPTION) {
+		if (o==JOptionPane.YES_OPTION) {
 			m_player.setM_vie(100);
 			m_player.setDefaultValues();
 			enemyList.clear();
 			collectList2.clear();
-			
 			m_tileM.loadMap(mapFiles[0]);
 			
 		} else {
@@ -234,7 +234,7 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
-	private void EndWindow() {
+	private void CongratsDialog() {
 		int option = JOptionPane.showOptionDialog(null, 
 	            "Congratulations!!", 
 	            "END", 
@@ -251,7 +251,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
 	/**
-	 * Affichage des �l�ments
+	 * Affichage des elements
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

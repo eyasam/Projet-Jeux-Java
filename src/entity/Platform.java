@@ -21,14 +21,14 @@ public class Platform extends Entity{
     boolean test;//quel platform 1 ou 2
 
 	/**
-	 * Constructeur de Player
+	 * Constructeur de Platform
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
 	public Platform(GamePanel a_gp,KeyHandler a_keyH,int y,Boolean t) {
         super(a_gp,a_keyH);
 		this.setDefaultValues(y);
-		this.getPlayerImage();
+		this.getPlatformImage();
         m_collision = true;
         test=t;
 
@@ -48,7 +48,7 @@ public class Platform extends Entity{
 	/**
 	 * Récuperation de l'image du personnage
 	 */
-	public void getPlayerImage() {
+	public void getPlatformImage() {
 		//gestion des expections 
 		try {
 			m_idleImage = ImageIO.read(getClass().getResource("/tiles/platform.png"));
@@ -79,7 +79,7 @@ public class Platform extends Entity{
 	 
 	 //verifie si le joueur est au dessus de la plateform
 	  public boolean isPlayerAbove(Player p) {
-	        int Py_min = p.getM_y() + m_gp.TILE_SIZE; 
+	        int Py_min = p.getM_y() + 2*m_gp.TILE_SIZE; 
 	        return Py_min<=getTopY(); 
 	   
 	  }

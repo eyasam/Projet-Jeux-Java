@@ -262,9 +262,9 @@ public class Player extends Entity{
 	    int x = Math.abs(m_x - e.getM_x());
 	    int y = Math.abs(m_y - e.getM_y());
 	    
-	    int tolerence=15;
+	    int tolerence=25;
 	    
-	    return (x < tolerence && y < tolerence);
+	    return (x<tolerence && y<tolerence);
 	}
 
 
