@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import main.GamePanel;
@@ -41,7 +42,7 @@ public class Player extends Entity{
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
-	protected void setDefaultValues() {
+	public void setDefaultValues() {
 		m_x = 40;
 		m_y = 100;
 		m_speed =2;
@@ -127,8 +128,8 @@ public class Player extends Entity{
 		if (restart_fall() ) {
 			decrementVie();
 			setDefaultValues();
-			if (m_vie <= 0) {
-				GameOverDialog();
+			if (getM_vie() <= 0) {
+				m_gp.GameOverDialog();
 				System.out.print("GAME OVER");
 			}
 		}
@@ -145,12 +146,12 @@ public class Player extends Entity{
 
 
 	private void decrementVie() {
-		m_vie -= 25;
-		if (m_vie < 0) {
-			m_vie = 0;
+		setM_vie(getM_vie() - 25);
+		if (getM_vie() < 0) {
+			setM_vie(0);
 		}
-		if (m_vie == 0) {
-			GameOverDialog(); 
+		if (getM_vie() == 0) {
+			m_gp.GameOverDialog(); 
 		}
 	}
 
@@ -214,11 +215,11 @@ public class Player extends Entity{
 		//bar
 		int largeur = 100;
 		int hauteur = 10;
-		int vie_restant = (int) ((double) m_vie/100 * largeur);
+		int vie_restant = (int) ((double) getM_vie()/100 * largeur);
 
-		if(m_vie<25) {
+		if(getM_vie()<25) {
 			a_g2.setColor(Color.RED);
-		}else if(m_vie<50) {
+		}else if(getM_vie()<50) {
 			a_g2.setColor(Color.ORANGE);
 		}else{
 			a_g2.setColor(Color.GREEN);
@@ -232,26 +233,11 @@ public class Player extends Entity{
 
 		//pourcentage
 		a_g2.setColor(Color.WHITE);
-		a_g2.drawString(m_vie + "%", m_x + (largeur/2)-10, m_y-25);
+		a_g2.drawString(getM_vie() + "%", m_x + (largeur/2)-10, m_y-25);
 	}
 
 
-	private void GameOverDialog() {
-		int option = JOptionPane.showOptionDialog(null, 
-				"GAME OVER", 
-				"Game Over", 
-				JOptionPane.YES_NO_OPTION, 
-				JOptionPane.INFORMATION_MESSAGE, 
-				null, 
-				new String[]{"Restart", "Exit"}, 
-				"Restart");
-		if (option == JOptionPane.YES_OPTION) {
-			m_vie=100;
-			setDefaultValues();
-		} else {
-			System.exit(0);
-		}
-	}
+
 
 
 
@@ -264,10 +250,10 @@ public class Player extends Entity{
 	}
 
 	public void incrementVie(int x) {
-		m_vie+=x;
+		setM_vie(getM_vie() + x);
 
-		if (m_vie > 100) {
-			m_vie=100;
+		if (getM_vie() > 100) {
+			setM_vie(100);
 			}
 	}
 
@@ -281,5 +267,14 @@ public class Player extends Entity{
 	    return (x < tolerence && y < tolerence);
 	}
 
+
+
+	public int getM_vie() {
+		return m_vie;
+	}
+
+	public void setM_vie(int m_vie) {
+		this.m_vie = m_vie;
+	}
 
 }

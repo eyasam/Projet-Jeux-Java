@@ -125,9 +125,7 @@ public class TileManager {
 		}
 	}
 	
-	 public void changeMap(String map) {
-	        loadMap(map);
-	    }
+	    
 	 
 	/**
 	 * Affichage de la carte avec les diff�rentes tuiles

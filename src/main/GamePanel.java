@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Color;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import entity.Enemy;
@@ -157,8 +159,10 @@ public class GamePanel extends JPanel implements Runnable{
 	 * Mise a jour des donn�es des entit�s
 	 */
 	public void update() {
-		System.out.print("map :"+map_indice);
-		
+		//System.out.print("map :"+map_indice);
+		System.out.println("X :"+m_player.m_x);
+		System.out.println("Y :"+m_player.m_y);
+
 		m_player.update();
 
 		if (map_indice == 0) {
@@ -178,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable{
 		if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE))) {
 			fishList.clear();	
 			collectList1.clear();	
-			m_tileM.changeMap(mapFiles[1]);
+			m_tileM.loadMap(mapFiles[1]);
 			m_player.setM_x(0); 
 			m_player.setM_y(TILE_SIZE);
 			map_indice+=1;
@@ -196,13 +200,54 @@ public class GamePanel extends JPanel implements Runnable{
 					c.setVisible(false); 
 					System.out.println("a disparu");
 				}
-			}}
+			}
+			
+			  if (m_player.getM_x()<=20 && m_player.getM_y()> 410) {
+				    System.out.print("fin");
+			        EndWindow();
+			    }
+		}
 
 		
 
 	}
 
+	public void GameOverDialog() {
+		int option = JOptionPane.showOptionDialog(null, 
+				"GAME OVER", 
+				"Game Over", 
+				JOptionPane.YES_NO_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				new String[]{"Restart", "Exit"}, 
+				"Restart");
+		if (option == JOptionPane.YES_OPTION) {
+			m_player.setM_vie(100);
+			m_player.setDefaultValues();
+			enemyList.clear();
+			collectList2.clear();
+			
+			m_tileM.loadMap(mapFiles[0]);
+			
+		} else {
+			System.exit(0);
+		}
+	}
+	
+	private void EndWindow() {
+		int option = JOptionPane.showOptionDialog(null, 
+	            "Congratulations!!", 
+	            "END", 
+	            JOptionPane.YES_NO_OPTION, 
+	            JOptionPane.INFORMATION_MESSAGE, 
+	            null, 
+	            new String[]{"Exit"}, 
+	            "Exit");
+	    if (option == JOptionPane.YES_OPTION) {
+	        System.exit(0);
+	    }
 
+	}
 
 
 	/**
