@@ -233,7 +233,7 @@ public class Player extends Entity{
 
 		//pourcentage
 		a_g2.setColor(Color.WHITE);
-		a_g2.drawString(getM_vie() + "%", m_x + (largeur/2)-10, m_y-25);
+		a_g2.drawString(getM_vie()+"%",m_x+(largeur/2)-10, m_y-25);
 	}
 
 

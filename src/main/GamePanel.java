@@ -102,12 +102,6 @@ public class GamePanel extends JPanel implements Runnable{
 		collectList2.add(new Collect(this, m_keyH,300, 260,"Bouteille"));
 		collectList2.add(new Collect(this, m_keyH,180, 310,"Bouteille"));
 
-
-
-
-		
-			
-		
 		m_platform2 = new Platform(this, m_keyH,330,false);
 
 
@@ -235,7 +229,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	private void CongratsDialog() {
-		int option = JOptionPane.showOptionDialog(null, 
+		int o=JOptionPane.showOptionDialog(null, 
 	            "Congratulations!!", 
 	            "END", 
 	            JOptionPane.YES_NO_OPTION, 
@@ -243,7 +237,7 @@ public class GamePanel extends JPanel implements Runnable{
 	            null, 
 	            new String[]{"Exit"}, 
 	            "Exit");
-	    if (option == JOptionPane.YES_OPTION) {
+	    if (o== JOptionPane.YES_OPTION) {
 	        System.exit(0);
 	    }
 

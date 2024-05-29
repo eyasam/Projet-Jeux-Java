@@ -153,12 +153,12 @@ public class TileManager {
 		
 	}
 	
-	//trouver le num de tuile à partir de ses coordonnées
+	//trouver le num de tuile
 	public int getTileNum(int x,int y) {
 	    return m_mapTileNum[x][y];
 	}
 
-	//@return true si une tuile spécifiée par son numéro est un obstacle
+	//si une tuile est un obstacle
 	public boolean isCollision(int n) {
 	    return m_tile[n].m_collision==true;
 	}

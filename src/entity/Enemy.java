@@ -37,9 +37,9 @@ public class Enemy extends Entity{
 	    m_y += m_speed * m_direction;
 
         if (m_y <= 20) {
-            m_direction = 1; // Déplacement vers la droite
-        } else if (m_y >= 100) { // Ajustez 300 selon les limites de votre carte
-            m_direction = -1; // Déplacement vers la gauche
+            m_direction = 1; //haut
+        } else if (m_y >= 100) { 
+            m_direction = -1; //bas
 
         }  
         
