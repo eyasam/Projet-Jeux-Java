@@ -132,13 +132,17 @@ public class Player extends Entity{
 				System.out.print("GAME OVER");
 			}
 		}
+		
+		for (Enemy e:m_gp.enemyList) {
+	        if (checkCollision(e)) {
+	            decrementVie(); 
+	            setDefaultValues(); 
+	            break; 
+	        }}
 
 	}
 
-	private boolean toucherLava() {
 
-		return false;
-	}
 
 	private void decrementVie() {
 		m_vie -= 25;
@@ -265,6 +269,16 @@ public class Player extends Entity{
 		if (m_vie > 100) {
 			m_vie=100;
 			}
+	}
+
+	public boolean checkCollision(Enemy e) {
+
+	    int x = Math.abs(m_x - e.getM_x());
+	    int y = Math.abs(m_y - e.getM_y());
+	    
+	    int tolerence=15;
+	    
+	    return (x < tolerence && y < tolerence);
 	}
 
 

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 
-public class Fruit extends Entity{
+public class Collect extends Entity{
 
 	private String type; 
 	private boolean isVisible;
@@ -23,10 +23,12 @@ public class Fruit extends Entity{
 		this.isVisible = isVisible;
 	}
 
-	public Fruit(GamePanel a_gp, KeyHandler a_keyH, int y, String fruitType) {
+	public Collect(GamePanel a_gp, KeyHandler a_keyH, int x,int y, String fruitType) {
 		super(a_gp, a_keyH);
+		this.m_x=x;
+		this.m_y=y;
 		this.type = fruitType;
-		setDefaultValues(y);
+		isVisible=true;
 		getFruitImage();
 	}
 
@@ -39,29 +41,26 @@ public class Fruit extends Entity{
 		}
 	}
 
-	private void setDefaultValues(int y) {
-		isVisible=true;
-		switch (type) {
-		case "Strawberry":
-			m_x = 270;
-			break;
-		case "Pastheque":
-			m_x = 500;
-			break;
-		case "Orange":
-			m_x = 175;
-			break;
-		}
-		m_y=y;
+	
 
-	}
 
 	@Override
 	public void draw(Graphics2D a_g2) {
 		if (isVisible) {
 			BufferedImage l_image = m_idleImage;
+			if (type=="Bouteille") {
+			a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE*2, m_gp.TILE_SIZE*2, null);
+			}else {
 			a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+
+			}
 		}
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

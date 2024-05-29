@@ -24,9 +24,8 @@ public abstract class Entity {
 	        this.m_keyH = keyH;
 	    }
 	
-	public void update() {
-		
-	}
+	public abstract void update();
+
 
 	public abstract void draw(Graphics2D a_g2);
 

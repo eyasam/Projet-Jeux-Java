@@ -18,17 +18,19 @@ public class Platform extends Entity{
 
 	private int m_direction;
     public boolean m_collision;
+    boolean test;//quel platform 1 ou 2
 
 	/**
 	 * Constructeur de Player
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Platform(GamePanel a_gp,KeyHandler a_keyH,int y) {
+	public Platform(GamePanel a_gp,KeyHandler a_keyH,int y,Boolean t) {
         super(a_gp,a_keyH);
 		this.setDefaultValues(y);
 		this.getPlayerImage();
         m_collision = true;
+        test=t;
 
 	}
 
@@ -50,6 +52,8 @@ public class Platform extends Entity{
 		//gestion des expections 
 		try {
 			m_idleImage = ImageIO.read(getClass().getResource("/tiles/platform.png"));
+			m_reverseImage = ImageIO.read(getClass().getResource("/tiles/platform2.png"));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -89,9 +93,20 @@ public class Platform extends Entity{
 	@Override
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
-		BufferedImage l_image = m_idleImage;
+		BufferedImage l_image;
+	    if (test) {
+	    	l_image = m_idleImage;
+	    }else {
+	    	l_image = m_reverseImage;
+	    }
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE*3, m_gp.TILE_SIZE, null);
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -4,8 +4,9 @@ import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import entity.Enemy;
 import entity.Fish;
-import entity.Fruit;
+import entity.Collect;
 import entity.Platform;
 import entity.Player;
 import tile.TileManager;
@@ -38,10 +39,12 @@ public class GamePanel extends JPanel implements Runnable{
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
-	public Platform m_platform;
+	public Platform m_platform,m_platform2;
+	public List<Enemy> enemyList;
+
 	List<Fish> fishList;
 	private TileManager m_tileM;
-	private List<Fruit> fruitList;
+	private List<Collect> collectList2,collectList1;
 
 
 	private int map_indice = 0;
@@ -56,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_player = new Player(this, m_keyH);
 
 		objects_map1();
+		objects_map2();
 
 		set_tileM(new TileManager(this));
 
@@ -76,12 +80,35 @@ public class GamePanel extends JPanel implements Runnable{
 			fishList.add(new Fish(this, m_keyH, initialX));
 		}
 
-		m_platform = new Platform(this, m_keyH,330);
+		m_platform = new Platform(this, m_keyH,330,true);
 
-		fruitList = new ArrayList<>();
-		fruitList.add(new Fruit(this, m_keyH, 200,"Strawberry"));
-		fruitList.add(new Fruit(this, m_keyH, 150,"Orange"));
-		fruitList.add(new Fruit(this, m_keyH, 300,"Pastheque"));
+		collectList1 = new ArrayList<>();
+		collectList1.add(new Collect(this, m_keyH,270,200,"Strawberry"));
+		collectList1.add(new Collect(this, m_keyH,175,150,"Orange"));
+		collectList1.add(new Collect(this, m_keyH,500,300,"Pastheque"));
+	}
+	private void objects_map2() {
+		enemyList=new ArrayList<>();
+		enemyList.add(new Enemy(this, m_keyH,300,20));
+		enemyList.add(new Enemy(this, m_keyH,420,20));
+		
+		collectList2 = new ArrayList<>();
+		collectList2.add(new Collect(this, m_keyH,160, 30,"Bouteille"));
+		collectList2.add(new Collect(this, m_keyH,560, 30,"Bouteille"));
+		collectList2.add(new Collect(this, m_keyH,600, 260,"Bouteille"));
+		collectList2.add(new Collect(this, m_keyH,530, 310,"Bouteille"));
+		collectList2.add(new Collect(this, m_keyH,300, 260,"Bouteille"));
+		collectList2.add(new Collect(this, m_keyH,180, 310,"Bouteille"));
+
+
+
+
+		
+			
+		
+		m_platform2 = new Platform(this, m_keyH,330,false);
+
+
 	}
 
 
@@ -130,6 +157,8 @@ public class GamePanel extends JPanel implements Runnable{
 	 * Mise a jour des donn�es des entit�s
 	 */
 	public void update() {
+		System.out.print("map :"+map_indice);
+		
 		m_player.update();
 
 		if (map_indice == 0) {
@@ -138,21 +167,36 @@ public class GamePanel extends JPanel implements Runnable{
 			for (Fish fish :fishList) {
 				fish.update();
 			}
-			for (Fruit fruit :fruitList) {
-				if (fruit.isVisible() && checkCollision(fruit)) {
+			for (Collect c :collectList1) {
+				if (c.isVisible() && checkCollision(c)) {
 					m_player.incrementVie(15);
-					fruit.setVisible(false); 
+					c.setVisible(false); 
 					System.out.println("a disparu");
 				}}
-		} 
+		
 
-		if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE))&& ((map_indice == 0))) {
+		if ((m_player.getM_x()>=(SCREEN_WIDTH - TILE_SIZE))) {
 			fishList.clear();	
-			fruitList.clear();	
+			collectList1.clear();	
 			m_tileM.changeMap(mapFiles[1]);
 			m_player.setM_x(0); 
 			m_player.setM_y(TILE_SIZE);
-		}
+			map_indice+=1;
+
+		}}else{
+
+			m_platform2.update(295,410);
+
+			for (Enemy e :enemyList) {
+				e.update();
+			}
+			for (Collect c :collectList2) {
+				if (c.isVisible() && checkCollision(c)) {
+					m_player.incrementVie(15);
+					c.setVisible(false); 
+					System.out.println("a disparu");
+				}
+			}}
 
 		
 
@@ -176,14 +220,20 @@ public class GamePanel extends JPanel implements Runnable{
 				fish.draw(g2);
 			}
 			m_platform.draw(g2);
-			for (Fruit fruit :fruitList) {
-				fruit.draw(g2);
+			for (Collect c :collectList1) {
+				c.draw(g2);
 			}}
 
-		else if (map_indice == 1) {
-			for (Fruit fruit :fruitList) {
-				fruit.draw(g2);
-			}	
+		
+			else{
+				m_platform2.draw(g2);
+
+			for (Enemy e :enemyList) {
+					e.draw(g2);
+				}
+			for (Collect c :collectList2) {
+				c.draw(g2);
+			}
 			} 
 
 		g2.dispose();
@@ -193,14 +243,14 @@ public class GamePanel extends JPanel implements Runnable{
 	 *  verifie s'il y a une collision entre le joueur et un fruit donne (avec une tolerance de 24)
 	 * */
 
-	private boolean checkCollision(Fruit f) {
+	private boolean checkCollision(Collect c) {
 		int player_x=m_player.m_x;
 		int player_y=m_player.m_y;
 
 		int tolerance = 24;
 
-		boolean test_x=Math.abs(player_x-f.m_x)<tolerance;
-		boolean test_y=Math.abs(player_y -f.m_y)<tolerance;
+		boolean test_x=Math.abs(player_x-c.m_x)<tolerance;
+		boolean test_y=Math.abs(player_y -c.m_y)<tolerance;
 
 		return (test_x && test_y);
 	}

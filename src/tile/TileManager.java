@@ -38,6 +38,7 @@ public class TileManager {
 	 */
 	public void getTileImage() {
 		try {
+		
 			m_tile[0] = new Tile();
 			m_tile[0].m_image = ImageIO.read(getClass().getResource("/tiles/GRASS.png"));
 			m_tile[0].m_collision = true;
@@ -51,10 +52,10 @@ public class TileManager {
 
 			
 			m_tile[4] = new Tile();
-			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/mur2b.png"));
+			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/rouge2.png"));
 			
 			m_tile[5] = new Tile();
-			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/mur2gris.png"));
+			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/rouge1.png"));
 			
 			m_tile[6] = new Tile();
 			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/mur1.png"));
@@ -85,7 +86,6 @@ public class TileManager {
 			m_tile[12] = new Tile();
 			m_tile[12].m_image = ImageIO.read(getClass().getResource("/tiles/BLVCK.png"));
 			m_tile[12].m_collision = true;
-	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -128,6 +128,7 @@ public class TileManager {
 	 public void changeMap(String map) {
 	        loadMap(map);
 	    }
+	 
 	/**
 	 * Affichage de la carte avec les diff�rentes tuiles
 	 * @param g2
